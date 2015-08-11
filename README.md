@@ -4,7 +4,7 @@ Not sure you want to commit your soul to Angular (or similar)? You might like a 
 What's the differece? A framework locks you in, and provides you limited ways to swap out functionality and components.  That's helpful if the framework does exactly what you want.  But if you're uneasy about getting locked into a framework, and are thinking about writing your code from "scratch", then what you need is a "convention" to follow.  A design pattern that will give you many of the benefits of a framework, while freeing you to write normal javascript/html5.
 
 ###Note: under development.
-The repository is under development.  Soon we'll have a simple example, and a more in depth example.  The goal of this repository is to help you follow basic conventions for html5/ajax structure, leaving you free to replace each component with another library or code of your own.  You don't have to start with a big framework like Angular (nothing against frameworks), but you do need to build in enough structure to your code to make it grow well, and these are some conventions to follow.
+The repository is under development and quite rough.  Soon we'll have a simple example, and a more in depth example.  The goal of this repository is to help you follow basic conventions for html5/ajax structure, leaving you free to replace each component with another library or code of your own.  You don't have to start with a big framework like Angular (nothing against frameworks), but you do need to build in enough structure to your code to make it grow well, and these are some conventions to follow.
 
 #The convention
 
