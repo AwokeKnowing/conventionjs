@@ -37,9 +37,9 @@ You just need 2 things. First, put any resources that you need in start.js.  Sec
     resload('js/siteapi.js'),
     resload('js/sitecontroller.js'),
     resload('js/pages/'+pageName+'.js'),
-    resload('templates/header.html', siteTpl),
-    resload('templates/'+pageName+'.html', siteTpl),
-    resload('templates/footer.html', siteTpl)
+    resload('templates/header.html', siteTpl, 'header'),
+    resload('templates/'+pageName+'.html', siteTpl, pageName),
+    resload('templates/footer.html', siteTpl, 'footer')
   ).then(function(){
         siteApi = new SiteApi();
         siteCtl = new SiteController(siteApi,siteTpl);
@@ -142,10 +142,10 @@ So again, what you have here is some boilerplate code, but it's written in a way
 
 So in general, we think by convention you'll want the following in your html5/javascript app
 
--Simple "landing page" code that provides an entry point to your site/app
--Resource loader that handles css, js, json, and html, with asnc (promise) syntax
--Basic Site controller that handles putting the header and footer on each page, and loads page content templates
--No frills javascript files to run along with each page, adding events and data
--A siteapi (data provider) that your app will talk with for any data
+- Simple "landing page" code that provides an entry point to your site/app
+- Resource loader that handles css, js, json, and html, with asnc (promise) syntax
+- Basic Site controller that handles putting the header and footer on each page, and loads page content templates
+- No frills javascript files to run along with each page, adding events and data
+- A siteapi (data provider) that your app will talk with for any data
 
 Even if you don't use any code here, we want to provide you with a convention to follow, so that you build all the elements that you'll need (and not the ones you don't need!) into your initial design.
