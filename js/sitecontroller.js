@@ -10,7 +10,7 @@ var SiteController = (function () {
     $('body').append(this.tplContainer[pageName]);
     this.renderFooter(pageName);
     this.addSiteEvents();
-    this.siteApi.getSession().then(function(){
+    this.siteApi.getSession();
     $(document).trigger(pageName+'PageReady');
   };
 
