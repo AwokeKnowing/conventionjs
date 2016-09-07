@@ -1,10 +1,10 @@
-function resload(url, templateOrJsonContainer, objectName) // for loading js and css files, and html templates
+function resload(url, templateOrJsonContainer, objectName, contentType) // for loading js and css files, and html templates
 {
 	var prom = $.Deferred();
 	if(typeof(templateOrJsonContainer)==='undefined') //it's a css or javascript
 	{
 		var b=url.split("?")[0];
-		if(b.substr(b.lastIndexOf(".")+1).toLowerCase()=='js') //probably javascript
+		if(b.substr(b.lastIndexOf(".")+1).toLowerCase()=='js' || contentType=='js') //probably javascript
 		{
 			var script = document.createElement("script");
 			script.async = "async";
@@ -32,9 +32,15 @@ function resload(url, templateOrJsonContainer, objectName) // for loading js and
 				}
 			});
 		}
-	}
-	else 									    //it's probably a html template or json
-		$.get(url, function(templateOrJson){templateOrJsonContainer[objectName]=templateOrJson;prom.resolve();});
+	} else { 									    //it's probably a html template or json
+        $.get(url, function(templateOrJson){
+            templateOrJsonContainer[objectName]=templateOrJson;
+            prom.resolve();
+        }).fail(function(error) {
+            console.log(error);
+            prom.reject();
+        });            
+    }
 	
 	//console.log(templateOrJsonContainer,objectName);
 	return prom;
@@ -89,7 +95,7 @@ function loadStyleSheet( path, fn, scope ) {
         sheet = 'styleSheet'; cssRules = 'rules';
     }
 
-    var logcss= window.location.hostname == "localhost" || window.location.hostname=='dev';
+    var logcss= window.location.hostname == "kcity" || window.location.hostname=='dev';
     var timeinterval_id, timeout_id;
 
     timeinterval_id = setInterval( function() {                            // start checking whether the style sheet has successfully loaded
@@ -103,7 +109,7 @@ function loadStyleSheet( path, fn, scope ) {
 			if(link[sheet] && link[sheet][cssRules]==null)//cross origin/fallback
 			{
 			 	clearInterval( timeinterval_id );                             // clear the counters
-			    clearTimeout( timeout_id );
+                                clearTimeout( timeout_id );
 			 	if (document.createStyleSheet)
 			    	document.createStyleSheet(path);
 				else
@@ -111,7 +117,14 @@ function loadStyleSheet( path, fn, scope ) {
 				fn.call( scope || window, true, link );
 				if(logcss)console.log('loaded external css',link['href']);
 			}
-		} catch( e ) {console.log(e)} finally {}
+		} catch( e ) {
+            if(e.code === 18) { 			 	
+                clearInterval( timeinterval_id );                             // clear the counters
+                clearTimeout( timeout_id );
+                console.log('Assuming css loaded (Firefox blocks knowing):' + path);
+                fn.call( scope || window, true, link );
+            }
+        } finally {}
 	}, 5 );
                                                                      // how often to check if the stylesheet is loaded
     timeout_id = setTimeout( function() {         // start counting down till fail
